@@ -38,28 +38,37 @@ class ViewController: UIViewController {
     @IBOutlet weak var calculation: UILabel!
 
     @IBAction func ButtonPressed(sender: UIButton) {
-        let button = sender.currentTitle
-        runningNumber += "\(button!)"
+        let button = sender.tag
+        runningNumber += "\(button)"
         calculation.text = runningNumber
-        //playSound()
+        playSound()
     }
     
     @IBAction func operand(sender: UIButton) {
-        //  playSound()
-        switch sender.currentTitle
+          playSound()
+        //        btn.imageView.image == UIImage(named:"BluePiece.png"
+        
+        if sender.currentImage == UIImage(named: "add.png")
         {
-        case "add"?:
             processOperation(Operation.Add)
-        case "subtract"?:
-            processOperation(Operation.Subtract)
-        case "multiply"?:
-            processOperation(Operation.Multiply)
-        case "divide"?:
-            processOperation(Operation.Divide)
-        case "equals"?:
-            processOperation(currentoperation)
-        default: processOperation(Operation.Empty)
         }
+        else if sender.currentImage == UIImage(named: "subtract.png")
+        {
+            processOperation(Operation.Subtract)
+        }
+        else if sender.currentImage == UIImage(named: "multiply.png")
+        {
+            processOperation(Operation.Multiply)
+        }
+        else if sender.currentImage == UIImage(named: "divide.png")
+        {
+            processOperation(Operation.Divide)
+        }
+        else
+        {
+            processOperation(Operation.Empty)
+        }
+
     }
     
     func processOperation(op: Operation){
@@ -72,6 +81,10 @@ class ViewController: UIViewController {
                 print("rightvar " + rightVar)
                 print("leftvar " + leftVar)
                 runningNumber = ""
+                if leftVar == ""
+                {
+                    leftVar = "0"
+                }
                 if currentoperation == Operation.Multiply{
                     result = "\(Double(leftVar)! * Double(rightVar)!)"
                 }
@@ -87,21 +100,17 @@ class ViewController: UIViewController {
                 leftVar = result
                 calculation.text = result
             }
+           if op != Operation.Empty
+           {
             currentoperation = op
+            }
         }
         else
         {
-            if(runningNumber == "")
-            {
-                leftVar = "0"
-            }
-            else
-            {
-                leftVar = runningNumber
-            }
+            leftVar = runningNumber
             runningNumber = ""
             print(leftVar)
-            currentoperation = op
+                currentoperation = op
         }
     }
     
